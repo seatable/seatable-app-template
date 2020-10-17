@@ -1,0 +1,16 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "display_name": {
+    "de": "",
+    "en": "test",
+    "fr": "",
+    "zh-cn": "测试"
+  },
+  "description": {
+    "de": "德语描述",
+    "en": "英语描述",
+    "fr": "法语描述",
+    "zh-cn": "中文描述"
+  }
+}
