@@ -99,7 +99,7 @@ There is no need to add other configuration parameters here, other parameters ar
 
 > Note, the "name" must be the save as in the info.json. Otherwise your plugin can't work.
 
-### 4. Modify plugin development configuration file settings.js
+### 4. Modify plugin development configuration file setting.js
 
 The configuration file is used for local development to get dtable data.
 
@@ -168,7 +168,7 @@ Steps:
 
 * Run `npm install` to install plugin dependencies
 * Run `npm run start` to run the local development environment
-* At this time, the values ​​of all subtables of the dtable and the details of collaborators in the table are displayed on the interface (the local development version uses the configuration in settings to obtain dtable data. The integrated version directly obtains the current browser DTable data).
+* At this time, the values ​​of all subtables of the dtable and the details of collaborators in the table are displayed on the interface (the local development version uses the configuration in setting to obtain dtable data. The integrated version directly obtains the current browser DTable data).
   1. The dtable value (tables) can be obtained through the getTables interface function provided by dtable.
   2. The collaborators can be obtained through the getRelatedUsers interface function provided by dtable.
    

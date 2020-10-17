@@ -86,7 +86,7 @@ info.json 说明
 这里不需要添加其他配置参数，其他参数由打包工具自动生成
 
 
-### 4. 修改 App 开发配置文件 settings.js
+### 4. 修改 App 开发配置文件 setting.js
 
 配置文件用于本地开发获取 dtable 数据。
 
@@ -154,7 +154,7 @@ display_name: ''
 
 * 运行 npm install 安装插件依赖项
 * 运行 npm run start 运行本地开发环境
-* 此时在界面上显示出 dtable 表格所有子表的value值，及表格中协作人 (collaborators) 的详细信息（本地开发版本使用 settings 中的配置来获取 dtable 数据。集成版本直接获取当前浏览器中的 dtable 数据）。
+* 此时在界面上显示出 dtable 表格所有子表的value值，及表格中协作人 (collaborators) 的详细信息（本地开发版本使用 setting 中的配置来获取 dtable 数据。集成版本直接获取当前浏览器中的 dtable 数据）。
   1. dtable 表格的中子表(tables)的相关数据，可以通过 dtable 提供的 getTables 接口函数获取
   2. dtable 表格协作人(collaborators)的详细信息，可以通过 dtable 提供的 getRelatedUsers 接口函数获取
    
