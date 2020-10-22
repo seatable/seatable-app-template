@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'reactstrap';
-import Loading from './widge/loading';
-import { covertRow } from './widge/utils';
+import Loading from './loading';
+import { covertRow } from './utils';
 
 const propTypes = {
   rows: PropTypes.array.isRequired,

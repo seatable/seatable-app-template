@@ -25,17 +25,18 @@ scripts --------------------------------- 项目打包脚本
 src ------------------------------------- 项目源码文件夹
   app.js -------------------------------- 项目主代码
   index.js ------------------------------ App 入口文件
+  css ----------------------------------- App 样式文件夹
+  widge --------------------------------- App 辅助组件文件夹
 ```
 
-## App 包
+## App 压缩包
 
 App 包是一个 zip 格式的文件。它解压后的目录结构如下
 
 ```
    your-app                        
+   	 -- info.json           // App 的信息文件
      -- main.js             // App 编译后的 js 文件
-     -- info.json           // App 的信息文件
-     -- media               // App 静态文件文件夹
      -- main.css            // App 编译后的 css 文件
 ```
 
@@ -63,7 +64,11 @@ info.json 说明
 ### 1. clone 项目
 
 * clone 当前项目到本地
-  
+
+```bash 
+git clone https://github.com/seatable/seatable-app-template.git
+```
+
 ### 2. 修改 App 信息文件
 
 * 在 app-config 文件夹中添加自定义的 icon.png 作为 app 的图标（可不提供，采用默认图标。icon.png 要求是 128x128 像素)
@@ -80,22 +85,27 @@ info.json 说明
 这里不需要添加其他配置参数，其他参数由打包工具自动生成
 
 
-### 4. 修改 App 开发配置文件 setting.js
+### 3. 修改 App 开发配置文件 index.js
 
 配置文件用于本地开发获取 dtable 数据。
 
 ```
 配置参数说明：
-const config = {
+
+const server = "https://dev.seafile.com/dtable-web/".replace(/\/+$/, ""); // 需添加 app 的 dtable 的部署网址
+
+window.dtableAppConfig = {
   APIToken: "**",               // 需添加 app 的 dtable 的 api token
-  server: "**",                 // 需添加 app 的 dtable 的部署网址
+  server,                       
   workspaceID: "**",            // 需添加 app 的 dtable 所在的 workspace 的 id 值
   dtableName: "**",             // 需添加 app 的 dtable 的名字
   lang: "**"                    // 默认语言类型，en 或者 zh-cn
 };
+
+const tableName = "**";         // 需添加 app 的子表的名称
 ```
 
-### 5. 添加国际化支持
+### 4. 添加国际化支持（暂不支持）
 
 #### app 国际化分两种情况
 
@@ -144,14 +154,13 @@ display_name: ''
 5. 调用intl的接口函数完成相应的国际化工作，使用文档请移步➡️[react-intl-universal](https://github.com/alibaba/react-intl-universal)
 
 
-### 6. 开始开发
+### 5. 开始开发
 
 * 运行 npm install 安装 app 依赖项
 * 运行 npm run start 运行本地开发环境
-* Todo:此时在界面上显示出 dtable 表格所有子表的value值，及表格中协作人 (collaborators) 的详细信息（本地开发版本使用 setting 中的配置来获取 dtable 数据。集成版本直接获取当前浏览器中的 dtable 数据）。
+* 此时在界面上显示查询 APP 名称、输入框、按钮。输入查询文本，点击按钮，下方出现查询结果。
   1. dtable 表格的中子表(tables)的相关数据，可以通过 dtable 提供的 getTables 接口函数获取
   2. dtable 表格协作人(collaborators)的详细信息，可以通过 dtable 提供的 getRelatedUsers 接口函数获取
-  
 * 依据需求，使用 dtable-sdk 提供的接口函数，更新 app.js 完成 app 功能开发
 
 app.js 代码主要结构说明
@@ -168,9 +177,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.initAllDTableData();  
+    this.initAllDTableData();
   }
-
+	
+  // 初始化 APP 数据（无需改动）
   async initAppDTableData() {
     if (window.app === undefined) {
       // local develop
@@ -197,11 +207,10 @@ class App extends React.Component {
   }
 
   resetData = () => {
-    this.setState({
-      isLoading: false,
-    });
+    this.setState({ isLoading: false });
   }
-
+	
+  // 根据需求更改显示的内容
   render() {
     let { isLoading } = this.state;
     if (isLoading) {
@@ -243,4 +252,5 @@ export default App;
 ## 打包上传 app 
 
 1. 执行 npm run build-app 打包 app 
-2. 上传 App 到 app.seatable.cn 上
+2. 打开 app-zip 文件夹，上传 App 压缩包到 app.seatable.cn 上
+

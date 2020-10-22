@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Label, Input, Button } from 'reactstrap';
 import DTable from 'dtable-sdk';
 import Loading from './widge/loading';
-import Content from './content';
+import Content from './widge/content';
 import './css/seafile-ui.css';
 import './css/app.css';
 
