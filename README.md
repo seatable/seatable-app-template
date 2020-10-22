@@ -1,8 +1,8 @@
 # SeaTable Plugin Development
 
-The SeaTable plugin allows you to provide additional functionality to a table according to your needs. The SeaTable plugin is written in JavaScript language. After compiling and packaging, it can be installed into a table.
+The SeaTable app allows you to provide additional functionality to a table according to your needs. The SeaTable app is written in JavaScript language. After compiling and packaging, it can be installed into a table.
 
-This repository provides templates and packaging scripts for plugins.
+This repository provides templates and packaging scripts for apps.
 
 ## Plugin Development Library
 
@@ -18,18 +18,13 @@ Plug-in development can use the following two libraries
 ```
 build ----------------------------------- folder after project compilation
 config ---------------------------------- project compilation configuration folder
-plugin-config --------------------------- project zip package configuration folder
-plugin-zip ------------------------------ project zip folder after zip packaging
+app-config --------------------------- project zip package configuration folder
+app-zip ------------------------------ project zip folder after zip packaging
 public ---------------------------------- project local development static files folder
 scripts --------------------------------- project packaging scripts
 src ------------------------------------- project source folder
-  locale -------------------------------- project internationalization support folder
-    lang -------------------------------- language folder
-    index.js ---------------------------- internationalization language support entry file
   app.js -------------------------------- project main code
-  entery.js ----------------------------- The entry file of the plugin in the integrated environment
   index.js ------------------------------ Entry file in the development environment
-  setting.js ---------------------------- Configuration file in development environment
 ```
 
 ## Plugin Package
@@ -37,26 +32,23 @@ src ------------------------------------- project source folder
 The plug-in package is a file in zip format. The directory structure after decompression is as follows
 
 ```
-   your-plugin
-     -main.js // compiled js file
-     -info.json // plugin info file
-     -media // plugin static files folder
-     -media / main.css // compiled css file
-     -media / icon.png // icon image of the plugin
-     -media / card_image.png // background image for plugin icon
+   your-app
+     - main.js // compiled js file
+     - info.json // app info file
+     - main.css // compiled css file
 ```
 
 info.json description
-   
+
 ```
 {
-  "name": '', // English name of plugin, can only contain letters, numbers, underscores, and underscores
-  "version": '', // plugin version number, need to be in a format like 1.0.3
-  "display_name": '', // the name the plugin displays on the interface
-  "description": '', // description of plugin function
-  "has_css": true / false, // whether the plugin contains css files
-  "has_icon": true / false, // whether the plugin contains icon images
-  "has_card_image": true / false // whether the plugin contains a background image
+  "name": '', // English name of app, can only contain letters, numbers, underscores, and underscores
+  "version": '', // app version number, need to be in a format like 1.0.3
+  "display_name": '', // the name the app displays on the interface
+  "description": '', // description of app function
+  "has_css": true / false, // whether the app contains css files
+  "has_icon": true / false, // whether the app contains icon images
+  "has_card_image": true / false // whether the app contains a background image
 }
 ```
 
@@ -66,40 +58,40 @@ Plugins can be run in two ways, one is a development environment, and the other 
 
 In the development environment, when the program is initialized, the table on the server is loaded through the information in the configuration file, and then a dialog box is actively displayed.
 
-In the production environment, the table data is already in the browser, so it does not need to be loaded. When the program is initialized (entry.js), it register a callback function with SeaTable. This callback function will be executed when the user clicks the button corresponding to the plugin. In this template, the behavior of the callback function is to let the plug-in pop up a dialog box and display it in the template through the dtable SDK interface
+In the production environment, the table data is already in the browser, so it does not need to be loaded. When the program is initialized (entry.js), it register a callback function with SeaTable. This callback function will be executed when the user clicks the button corresponding to the app. In this template, the behavior of the callback function is to let the plug-in pop up a dialog box and display it in the template through the dtable SDK interface
 
-## Basic process of plugin development
+## Basic process of app development
 
 ### 1. clone project
 
 * clone current project to local
-   
-### 2. Modify the plugin information file
+  
+### 2. Modify the app information file
 
-* Add a custom icon.png as the icon of the plugin in the plugin-config folder (if it is not provided, the default icon will be used. icon.png requires 128x128 pixels)
-* Add custom card_image.png as the background image of the plugin icon in the plugin-config folder (if it is not provided, the default background is displayed. card_image.png is required to be 560x240 pixels, the actual display is 280x120 pixels.
-* Modify info.json configuration file in plugin-config folder
+* Add a custom icon.png as the icon of the app in the app-config folder (if it is not provided, the default icon will be used. icon.png requires 128x128 pixels)
+* Add custom card_image.png as the background image of the app icon in the app-config folder (if it is not provided, the default background is displayed. card_image.png is required to be 560x240 pixels, the actual display is 280x120 pixels.
+* Modify info.json configuration file in app-config folder
 
 ```
-  "name": '', // English name of plugin, can only contain letters, numbers, underscores, and underscores
-  "version": '', // plugin version number
-  "display_name": '', // name of the plugin display
-  "description": '', // description of plugin function
+  "name": '', // English name of app, can only contain letters, numbers, underscores, and underscores
+  "version": '', // app version number
+  "display_name": '', // name of the app display
+  "description": '', // description of app function
 ```
 
 There is no need to add other configuration parameters here, other parameters are automatically generated by the packaging tool
 
-### 3. Modify plugin registration function in entry.js file
+### 3. Modify app registration function in entry.js file
 
 ```
   Update window.app.registerPluginItemCallback ('test', TaskList.execute);
   ⬇️
-  To： window.app.registerPluginItemCallback (name, TaskList.execute); where the value of name is the value of "name" in plugin-config/info.json
+  To： window.app.registerPluginItemCallback (name, TaskList.execute); where the value of name is the value of "name" in app-config/info.json
 ```
 
-> Note, the "name" must be the save as in the info.json. Otherwise your plugin can't work.
+> Note, the "name" must be the save as in the info.json. Otherwise your app can't work.
 
-### 4. Modify plugin development configuration file setting.js
+### 4. Modify app development configuration file setting.js
 
 The configuration file is used for local development to get dtable data.
 
@@ -107,19 +99,19 @@ The configuration file is used for local development to get dtable data.
 Configuration parameter description:
 const config = {
   APIToken: "**", // dtable api token to be added
-  server: "**", // The server URL of the dtable to which the plugin needs to be added
-  workspaceID: "**", // The id value of the workspace where the dtable of the plugin needs to be added
-  dtableName: "**", // The name of the dtable to add the plugin to
+  server: "**", // The server URL of the dtable to which the app needs to be added
+  workspaceID: "**", // The id value of the workspace where the dtable of the app needs to be added
+  dtableName: "**", // The name of the dtable to add the app to
   lang: "**" // default language type, en or zh-cn
 };
 ```
 
 ### 5. Add internationalization support
 
-#### There are two cases of plugin internationalization
+#### There are two cases of app internationalization
 
 1. Plugin display name internationalization
-2. Internationalization of the internal content of the plugin: The translation strings should be placed in js files and packaged with the plugin's other js source files into a final js file.
+2. Internationalization of the internal content of the app: The translation strings should be placed in js files and packaged with the app's other js source files into a final js file.
 
 
 #### Plugin display name internationalization
@@ -143,9 +135,9 @@ display_name: ''
 ```
 
 
-#### Internationalization of the internal content of the plugin
+#### Internationalization of the internal content of the app
 
-We recommend to use [react-intl-universal](https://github.com/alibaba/react-intl-universal) for plugin internationalization.
+We recommend to use [react-intl-universal](https://github.com/alibaba/react-intl-universal) for app internationalization.
 
 This library support internationalization for the following contents:
 1. Number
@@ -166,55 +158,37 @@ Steps:
 
 ### 6. Start development
 
-* Run `npm install` to install plugin dependencies
+* Run `npm install` to install app dependencies
 * Run `npm run start` to run the local development environment
-* At this time, the values ​​of all subtables of the dtable and the details of collaborators in the table are displayed on the interface (the local development version uses the configuration in setting to obtain dtable data. The integrated version directly obtains the current browser DTable data).
+* Todo: At this time, the values of all subtables of the dtable and the details of collaborators in the table are displayed on the interface (the local development version uses the configuration in setting to obtain dtable data. The integrated version directly obtains the current browser DTable data).
   1. The dtable value (tables) can be obtained through the getTables interface function provided by dtable.
   2. The collaborators can be obtained through the getRelatedUsers interface function provided by dtable.
-   
+  
 * According to requirements, use the interface functions provided by dtable-sdk to update app.js to complete the plug-in function development
 
 app.js code explained
 
-```
+```jsx
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import DTable from 'dtable-sdk';
-
-import './css/plugin-layout.css';
-
-const propTypes = {
-  showDialog: PropTypes.bool
-};
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: true,
-      showDialog: props.showDialog || false,
-    };
     this.dtable = new DTable();
   }
 
-  // Description: Initialize the dtable-sdk plugin's interface object 
   componentDidMount() {
-    this.initPluginDTableData();  
+    this.initAllDTableData();  
   }
 
-  // Description: After integrating the plugin, control the display of the content of the plugin
-  componentWillReceiveProps(nextProps) {
-    this.setState({showDialog: nextProps.showDialog});  
-  } 
-
-  // Explanation: template function, no need to change
-  async initPluginDTableData() {
+  async initAppDTableData() {
     if (window.app === undefined) {
       // local develop
       window.app = {};
-      await this.dtable.init(window.dtablePluginConfig);
+      await this.dtable.init(window.dtableAppConfig);
       await this.dtable.syncWithServer();
       this.dtable.subscribe('dtable-connect', () => { this.onDTableConnect(); });
     } else { 
@@ -223,50 +197,53 @@ class App extends React.Component {
     }
     this.dtable.subscribe('remote-data-changed', () => { this.onDTableChanged(); });
     this.resetData();
+    this.table = this.dtable.getTableByName(this.props.tableName);
+    this.collaborators = this.dtable.getRelatedUsers();
   }
 
-  // Explanation: template function, no need to change
   onDTableConnect = () => {
     this.resetData();
   }
 
-  // Explanation: template function, no need to change
   onDTableChanged = () => {
     this.resetData();
   }
 
-  // Explanation: Update display data according to requirements
   resetData = () => {
     this.setState({
       isLoading: false,
-      showDialog: true
     });
   }
 
-  // Explanation: template function, no need to change
-  onPluginToggle = () => {
-    this.setState({showDialog: false});
-  }
-
-  // Explanation: Update display content according to business needs
   render() {
-    let { isLoading, showDialog } = this.state;
+    let { isLoading } = this.state;
     if (isLoading) {
-      return '';
+      return <Loading/>;
     }
-
-    let subtables = this.dtable.getTables();
-    let collaborators = this.dtable.getRelatedUsers();
-    
+    const preCl = 'dtable-app';
     return (
-      <Modal isOpen={showDialog} toggle={this.onPluginToggle} className="dtable-plugin plugin-container" size="lg">
-        <ModalHeader className="test-plugin-header" toggle={this.onPluginToggle}>{'插件'}</ModalHeader>
-        <ModalBody className="test-plugin-content">
-          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-          <br></br>
-          <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
-        </ModalBody>
-      </Modal>
+      <div className={`${preCl} w-100`}>
+        <h2 className={`${preCl}-header`}>{'信息查询APP'}</h2>
+        <div className={`${preCl}-search mx-4`}>
+          <Label className="mr-2">{'微信名称'}</Label>
+          <Input
+            type="text"
+            className={`${preCl}-search-input`}
+            value={this.state.searchValue}
+            onChange={this.onInputChange}
+            onKeyDown={this.onKeyDown}
+          />
+          <Button onClick={this.searchRow} className="ml-2 mb-1">{'查询'}</Button>
+          <Button onClick={this.clearSearch} className="ml-2 mb-1">{'清空'}</Button>
+        </div>
+        <div className={`${preCl}-body`}>
+          <Content
+            rows={this.state.rows}
+            columns={this.table.columns}
+            collaborators={this.collaborators}
+          />
+        </div>
+      </div>
     );
   }
 }
@@ -274,10 +251,9 @@ class App extends React.Component {
 App.propTypes = propTypes;
 
 export default App;
-
 ```
 
-## Build zip package and upload plugin
+## Build zip package and upload app
 
-1. Run `npm run build-plugin` to package the plugin
-2. Upload the plugin to dtable
+1. Run `npm run build-app` to package the app
+2. Upload the app to dtable

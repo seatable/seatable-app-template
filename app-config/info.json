@@ -1,11 +1,11 @@
 {
-  "name": "test-create-app",
+  "name": "test-app",
   "version": "0.0.1",
   "display_name": {
-    "de": "test create app",
-    "en": "test create app",
-    "fr": "test create app",
-    "zh-cn": "测试创建APP"
+    "de": "",
+    "en": "test",
+    "fr": "",
+    "zh-cn": "测试"
   },
   "description": {
     "de": "德语描述",

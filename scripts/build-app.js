@@ -10,35 +10,34 @@ const config = {
 
 const zip = new JSZip();
 
-// build file
 const jsFilePath = getFullFileName(config.dir + 'js');
 const cssFilePath = getFullFileName(config.dir + 'css');
+
 zip.file('main.js', getFileContent(jsFilePath));
 if (isDirExist(paths.appBuild + '/static/css') && cssFilePath) {
   zip.file('main.css', getFileContent(cssFilePath));
 }
 
-// info file
-const pluginInfoFilePath = path.join(paths.pluginConfigPath, 'info.json');
-const pluginInfoContent = JSON.parse(getFileContent(pluginInfoFilePath));
+const appInfoFilePath = path.join(paths.appConfigPath, 'info.json');
+const appInfoContent = JSON.parse(getFileContent(appInfoFilePath));
 
-const pluginInfoContentExpand = {
+const appInfoContentExpand = {
   "last_modified": moment().format(),
   "has_css": (isDirExist(paths.appBuild + '/static/css') && cssFilePath) ? true : false,
-  "has_icon": isFileExist(paths.pluginConfigPath, 'icon.png'),
-  "has_card_image": isFileExist(paths.pluginConfigPath, 'card_image.png')
+  "has_icon": isFileExist(paths.appConfigPath, 'icon.png'),
+  "has_card_image": isFileExist(paths.appConfigPath, 'card_image.png')
 }
 
-let jsonFileContent = Object.assign({}, pluginInfoContent, pluginInfoContentExpand);
+let jsonFileContent = Object.assign({}, appInfoContent, appInfoContentExpand);
 
 zip.file('info.json', JSON.stringify(jsonFileContent, null, '  '));
 
 zip.generateAsync({type: "nodebuffer"}).then(function(content) { 
-  let zip = `${pluginInfoContent.name}-${pluginInfoContent.version}.zip`;
-  fs.writeFile(paths.zipPath + '/' + zip, content, function(err) {
+  let zip = `${appInfoContent.name}-${appInfoContent.version}.zip`;
+  fs.writeFile(paths.appPath + '/' + zip, content, function(err) {
     if (err) {
       console.log(zip + ' failed');
-      console.log(err)
+      console.log(err);
       return;
     }
     console.log(zip + ' successful');

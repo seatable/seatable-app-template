@@ -41,7 +41,6 @@ const getPreviewContent = (markdownContent) => {
       break;
     }
   }
-
   const hrefs = markdownContent.match(hrefReg);
   if (hrefs) {
     const { images, links } = getLinks(hrefs);

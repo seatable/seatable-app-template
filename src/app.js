@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Label, Input, Button } from 'reactstrap';
 import DTable from 'dtable-sdk';
 import Loading from './widge/loading';
@@ -6,7 +7,9 @@ import Content from './content';
 import './css/seafile-ui.css';
 import './css/app.css';
 
-const tableName = '测试移动端全部的列';
+const propTypes = {
+  tableName: PropTypes.string.isRequired,
+};
 
 class App extends React.Component {
 
@@ -14,7 +17,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      wechatName: '',
+      searchValue: '',
       rows: []
     };
     this.dtable = new DTable();
@@ -22,7 +25,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.initPluginDTableData();
+    this.initAppDTableData();
   }
 
   componentWillUnmount() {
@@ -30,11 +33,11 @@ class App extends React.Component {
     this.unsubscribeRemoteDtableChanged();
   }
 
-  async initPluginDTableData() {
+  async initAppDTableData() {
     if (window.app === undefined) {
       // local develop
       window.app = {};
-      await this.dtable.init(window.dtablePluginConfig);
+      await this.dtable.init(window.dtableAppConfig);
       await this.dtable.syncWithServer();
       this.dtable.subscribe('dtable-connect', () => { this.onDTableConnect(); });
     } else { 
@@ -44,7 +47,8 @@ class App extends React.Component {
     this.unsubscribeLocalDtableChanged = this.dtable.subscribe('local-dtable-changed', () => { this.onDTableChanged(); });
     this.unsubscribeRemoteDtableChanged = this.dtable.subscribe('remote-dtable-changed', () => { this.onDTableChanged(); });
     this.resetData();
-    this.table = this.dtable.getTableByName(tableName);
+    this.table = this.dtable.getTableByName(this.props.tableName);
+    this.collaborators = this.dtable.getRelatedUsers();
   }
 
   onDTableConnect = () => {
@@ -62,9 +66,7 @@ class App extends React.Component {
   }
 
   onInputChange = (e) => {
-    this.setState({
-      wechatName: e.target.value
-    });
+    this.setState({ searchValue: e.target.value });
   }
 
   onKeyDown = (e) => {
@@ -75,7 +77,7 @@ class App extends React.Component {
   }
 
   searchRow = () => {
-    let name = this.state.wechatName.trim();
+    let name = this.state.searchValue.trim();
     if (!name) return;
     let newRows = this.table.rows.filter((row) => {
       return row && row['0000'] === name;
@@ -86,25 +88,8 @@ class App extends React.Component {
   clearSearch = () => {
     this.setState({
       rows: [],
-      wechatName: ''
+      searchValue: ''
     });
-  }
-
-  renderSearch = () => {
-    return (
-      <div className="mx-4">
-        <Label className="mr-2">{'微信名称'}</Label>
-        <Input
-          type="text"
-          className="wechat-name"
-          value={this.state.wechatName}
-          onChange={this.onInputChange}
-          onKeyDown={this.onKeyDown}
-        />
-        <Button onClick={this.searchRow} className="ml-2 mb-1">{'查询'}</Button>
-        <Button onClick={this.clearSearch} className="ml-2 mb-1">{'清空'}</Button>
-      </div>
-    );
   }
 
   render() {
@@ -112,29 +97,34 @@ class App extends React.Component {
     if (isLoading) {
       return <Loading/>;
     }
-    let search = this.renderSearch();
-    let collaborators = this.dtable.getRelatedUsers();
-
-    const style = {
-      width: '100%',
-      overflow: 'auto'
-    };
+    const preCl = 'dtable-app';
     return (
-      <div className="dtable-plugin plugin-container dataset-dialog w-100">
-        <h2 className="dtable-plugin-header">{'信息查询APP'}</h2>
-        {search}
-        <div style={style}>
-          <div className="test-plugin-content">            
-            <Content
-              rows={this.state.rows}
-              columns={this.table.columns}
-              collaborators={collaborators}
-            />
-          </div>
+      <div className={`${preCl} w-100`}>
+        <h2 className={`${preCl}-header`}>{'信息查询APP'}</h2>
+        <div className={`${preCl}-search mx-4`}>
+          <Label className="mr-2">{'微信名称'}</Label>
+          <Input
+            type="text"
+            className={`${preCl}-search-input`}
+            value={this.state.searchValue}
+            onChange={this.onInputChange}
+            onKeyDown={this.onKeyDown}
+          />
+          <Button onClick={this.searchRow} className="ml-2 mb-1">{'查询'}</Button>
+          <Button onClick={this.clearSearch} className="ml-2 mb-1">{'清空'}</Button>
+        </div>
+        <div className={`${preCl}-body`}>
+          <Content
+            rows={this.state.rows}
+            columns={this.table.columns}
+            collaborators={this.collaborators}
+          />
         </div>
       </div>
     );
   }
 }
+
+App.propTypes = propTypes;
 
 export default App;

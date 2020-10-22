@@ -134,7 +134,11 @@ function renderCollaborators(cellValue, related_user_list) {
       );
     }
   });
-  return <div className="collaborators-formmatter"><div className="formmatter-show">{collaborators}</div></div>;
+  return (
+    <div className="collaborators-formmatter">
+      <div className="formmatter-show">{collaborators}</div>
+    </div>
+  );
 }
 
 function renderDate(cellValue, data) {
@@ -238,7 +242,6 @@ export const covertRow = (row, column, related_user_list) => {
       }        
       break;
     default:
-      console.log(type);
       result = cellValue.toString();
   }
   return result;
