@@ -1,0 +1,271 @@
+/** loading **/
+@-moz-keyframes loading {
+  0% {
+      -moz-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -moz-transform: rotate(360deg);
+      transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loading {
+  0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+  }
+}
+
+@keyframes loading {
+  0% {
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+  }
+}
+
+.loading-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #eee;
+  border-left-color: #aaa;
+  border-radius: 50%;
+  -moz-animation: loading 0.9s infinite linear;
+  -webkit-animation: loading 0.9s infinite linear;
+  animation: loading 0.9s infinite linear;
+}
+
+.loading-tip {
+  display: block;
+  margin: 0 auto;
+}
+
+/* content */
+.dataset-dialog table {
+  border: 1px solid #d6d6d6;
+}
+
+.dataset-dialog table thead tr {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.dataset-dialog table thead tr th {
+  color: #202428;
+  font-weight: 400;
+}
+
+.dataset-dialog table tbody tr {
+  height: 32px;
+}
+
+.dataset-dialog table thead tr th, .dataset-dialog table tbody tr td {
+  border-right: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.dataset-dialog td .image-formatter img {
+  max-height: 28px;
+  margin-right: 4px;
+  border: 1px solid #f0f0f0;
+}
+
+.dataset-dialog table thead tr th:last-child, .dataset-dialog table tbody tr td:last-child {
+  border-right: none;
+}
+
+.dataset-dialog table thead tr .header-icon .dtable-font {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.dataset-dialog table thead tr .header-name {
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.dataset-dialog .modal-body {
+  max-height: 500px;
+  overflow: auto;
+}
+
+.longtext-formatter, .text-formatter {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.longtext-icon-container {
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.longtext-formatter-links-container {
+  background-color: #f0f0f0;
+  color: #9c9c9c;
+  padding: 0 3px;
+  height: 20px;
+  line-height: 20px;
+  margin: 0 4px;
+}
+
+.longtext-formatter-image-container {
+  line-height: 30px;
+  margin-right: -10px;
+}
+
+.longtext-formatter-image-container img {
+  max-width: 28px;
+  border: 1px solid #f0f0f0;
+  max-height: 28px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.longtext-formatter-image-container .image-number {
+  font-style: normal;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 6px;
+  background-color: #999;
+  color: #fff;
+  transform: translate(-50%, 9px) scale(0.8);
+  min-width: 14px;
+  line-height: 14px;
+  padding: 0 3px;
+}
+
+.longtext-formatter-links-container .dtable-font {
+  margin-right: 4px;
+  font-size: 12px;
+}
+
+.file-formatter {
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.file-formatter img {
+  max-height: 28px;
+  margin-right: 4px;
+  border: 1px solid #f0f0f0;
+}
+
+.collaborators-formmatter {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.collaborators-formmatter .formmatter-show {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+.collaborators-formmatter .collaborator {
+  display: inline-flex;
+  height: 20px;
+  margin-right: 10px;
+  padding: 0 8px 0 2px;
+  font-size: 13px;
+  border-radius: 10px;
+  background: #eaeaea;
+}
+
+.collaborators-formmatter .collaborator-avatar-container {
+  width: 16px;
+}
+
+.collaborator-avatar {
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.collaborators-formmatter .collaborator-avatar {
+  width: 16px;
+  height: 16px;
+  transform: translateY(-1px);
+}
+
+.collaborators-formmatter .collaborator-name {
+  margin-left: 5px;
+}
+
+.dataset-dialog .single-select, .dataset-dialog .multiple-select {
+  display: inline-block;
+  padding: 0px 10px;
+  height: 20px;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.multiple-selects-formatter {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.multiple-selects-formatter .formatter-show {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+/* plugin layout */
+.dtable-plugin.plugin-container .test-plugin-header {
+  font-size: 24px;
+}
+
+.dtable-plugin.plugin-container .test-plugin-content {
+  padding: 16px;
+  width: max-content;
+  overflow: auto;
+}
+
+.dtable-plugin-header {
+  text-align: center;
+  margin: 2rem;
+}
+
+.wechat-name {
+  width: 30%;
+  display: inline-block;
+}
+
+.dtable-plugin input[type="radio"],
+.dtable-plugin input[type="checkbox"] {
+  margin-left: calc(50% - 16px);
+}
+
+.dtable-plugin.plugin-container .test-plugin-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* fix */
+.longtext-formatter {
+  max-width: 300px;
+}

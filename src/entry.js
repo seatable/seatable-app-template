@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app'
+import App from './app';
 
-class TaskList {
+const server = "https://dev.seafile.com/dtable-web/".replace(/\/+$/, "");
 
-  static execute() {
-    let wrapper = document.querySelector('#plugin-wrapper');
-    ReactDOM.render(<App showDialog={true} />, wrapper);
-  }
+window.dtablePluginConfig = {
+  APIToken: "550431bb7e58590823d53bfa8bdb6f9aab2a7ac0",
+  server,
+  workspaceID: "3",
+  dtableName: "new",
+  lang: "en"
+};
 
-}
-
-export default TaskList;
-
-window.app.registerPluginItemCallback('test', TaskList.execute);
+ReactDOM.render(<App />, document.getElementsByTagName('body')[0]);

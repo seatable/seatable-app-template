@@ -266,3 +266,5 @@ export default App;
 
 1. 执行 npm run build-plugin 打包插件
 2. 上传 App 到 app.seatable.cn 上
+
+https://app.seatable.cn/admin/apps/

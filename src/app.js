@@ -1,15 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Label, Input, Button } from 'reactstrap';
 import DTable from 'dtable-sdk';
-import intl from 'react-intl-universal';
-import './locale/index.js'
+import Loading from './widge/loading';
+import Content from './content';
+import './css/seafile-ui.css';
+import './css/app.css';
 
-import './css/plugin-layout.css';
-
-const propTypes = {
-  showDialog: PropTypes.bool
-};
+const tableName = '测试移动端全部的列';
 
 class App extends React.Component {
 
@@ -17,18 +14,16 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      showDialog: props.showDialog || false,
+      wechatName: '',
+      rows: []
     };
     this.dtable = new DTable();
+    this.table = {};
   }
 
   componentDidMount() {
     this.initPluginDTableData();
   }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({showDialog: nextProps.showDialog});
-  } 
 
   componentWillUnmount() {
     this.unsubscribeLocalDtableChanged();
@@ -49,6 +44,7 @@ class App extends React.Component {
     this.unsubscribeLocalDtableChanged = this.dtable.subscribe('local-dtable-changed', () => { this.onDTableChanged(); });
     this.unsubscribeRemoteDtableChanged = this.dtable.subscribe('remote-dtable-changed', () => { this.onDTableChanged(); });
     this.resetData();
+    this.table = this.dtable.getTableByName(tableName);
   }
 
   onDTableConnect = () => {
@@ -61,44 +57,84 @@ class App extends React.Component {
 
   resetData = () => {
     this.setState({
-      isLoading: false,
-      showDialog: true
+      isLoading: false
     });
   }
 
-  onPluginToggle = () => {
-    this.setState({showDialog: false});
-    window.app.onClosePlugin();
+  onInputChange = (e) => {
+    this.setState({
+      wechatName: e.target.value
+    });
+  }
+
+  onKeyDown = (e) => {
+    e.stopPropagation();
+    if (e.keyCode === 13) {
+      this.searchRow();
+    }
+  }
+
+  searchRow = () => {
+    let name = this.state.wechatName.trim();
+    if (!name) return;
+    let newRows = this.table.rows.filter((row) => {
+      return row && row['0000'] === name;
+    });
+    this.setState({ rows: newRows });
+  }
+
+  clearSearch = () => {
+    this.setState({
+      rows: [],
+      wechatName: ''
+    });
+  }
+
+  renderSearch = () => {
+    return (
+      <div className="mx-4">
+        <Label className="mr-2">{'微信名称'}</Label>
+        <Input
+          type="text"
+          className="wechat-name"
+          value={this.state.wechatName}
+          onChange={this.onInputChange}
+          onKeyDown={this.onKeyDown}
+        />
+        <Button onClick={this.searchRow} className="ml-2 mb-1">{'查询'}</Button>
+        <Button onClick={this.clearSearch} className="ml-2 mb-1">{'清空'}</Button>
+      </div>
+    );
   }
 
   render() {
-    let { isLoading, showDialog } = this.state;
+    let { isLoading } = this.state;
     if (isLoading) {
-      return '';
+      return <Loading/>;
     }
-
-    let subtables = this.dtable.getTables();
+    let search = this.renderSearch();
     let collaborators = this.dtable.getRelatedUsers();
-    
+
+    const style = {
+      width: '100%',
+      overflow: 'auto'
+    };
     return (
-      <Modal isOpen={showDialog} toggle={this.onPluginToggle} className="dtable-plugin plugin-container" size="lg">
-        <ModalHeader className="test-plugin-header" toggle={this.onPluginToggle}>{'Plugin'}</ModalHeader>
-        <ModalBody className="test-plugin-content">
-          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-          <br></br>
-          <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
-          <div className="mt-4">
-            <h2 className="text-left">{intl.get('international_demo')}</h2>
-            <div>{intl.get('shanshui')}</div>
-            <div>{intl.get('hello_someone', {name: '小强'})}</div>
-            <div>{intl.getHTML('contans_html_params', {params: '参数1，参数2'})}</div>
+      <div className="dtable-plugin plugin-container dataset-dialog w-100">
+        <h2 className="dtable-plugin-header">{'信息查询APP'}</h2>
+        {search}
+        <div style={style}>
+          <div className="test-plugin-content">            
+            <Content
+              rows={this.state.rows}
+              columns={this.table.columns}
+              collaborators={collaborators}
+            />
           </div>
-        </ModalBody>
-      </Modal>
+        </div>
+      </div>
     );
   }
 }
-
-App.propTypes = propTypes;
 
 export default App;
