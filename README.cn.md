@@ -26,7 +26,7 @@ src ------------------------------------- 项目源码文件夹
   app.js -------------------------------- 项目主代码
   index.js ------------------------------ App 入口文件
   css ----------------------------------- App 样式文件夹
-  widge --------------------------------- App 辅助组件文件夹
+  widge --------------------------------- App 组件文件夹
 ```
 
 ## App 压缩包
@@ -91,18 +91,15 @@ git clone https://github.com/seatable/seatable-app-template.git
 
 ```
 配置参数说明：
-
-const server = "https://dev.seafile.com/dtable-web/".replace(/\/+$/, ""); // 需添加 app 的 dtable 的部署网址
-
 window.dtableAppConfig = {
-  APIToken: "**",               // 需添加 app 的 dtable 的 api token
-  server,                       
-  workspaceID: "**",            // 需添加 app 的 dtable 所在的 workspace 的 id 值
-  dtableName: "**",             // 需添加 app 的 dtable 的名字
-  lang: "**"                    // 默认语言类型，en 或者 zh-cn
+  APIToken: "**",                   // 需添加 app 的 dtable 的 api token
+  server: "**".replace(/\/+$/, ""), // 需添加 app 的 dtable 的部署网址
+  workspaceID: "**",                // 需添加 app 的 dtable 所在的 workspace 的 id 值
+  dtableName: "**",                 // 需添加 app 的 dtable 的名字
+  tableName: "**",                  // 需添加 app 的子表的名称
+  lang: "**"                        // 默认语言类型，en 或者 zh-cn
 };
-
-const tableName = "**";         // 需添加 app 的子表的名称
+     
 ```
 
 ### 4. 添加国际化支持（暂不支持）
@@ -166,7 +163,6 @@ display_name: ''
 app.js 代码主要结构说明
 ```jsx
 import React from 'react';
-import PropTypes from 'prop-types';
 import DTable from 'dtable-sdk';
 
 class App extends React.Component {
@@ -194,7 +190,7 @@ class App extends React.Component {
     }
     this.dtable.subscribe('remote-data-changed', () => { this.onDTableChanged(); });
     this.resetData();
-    this.table = this.dtable.getTableByName(this.props.tableName);
+    this.table = this.dtable.getTableByName(window.dtableAppConfig.tableName);
     this.collaborators = this.dtable.getRelatedUsers();
   }
 
@@ -243,8 +239,6 @@ class App extends React.Component {
     );
   }
 }
-
-App.propTypes = propTypes;
 
 export default App;
 ```

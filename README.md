@@ -88,17 +88,14 @@ The configuration file is used for local development to get dtable data.
 ```
 Configuration parameter description:
 
-const server = "**".replace(/\/+$/, ""); // The server URL of the dtable to which the app needs to be added
-
 const config = {
   APIToken: "**", // dtable api token to be added
-  server,
+  server: "**".replace(/\/+$/, ""), // The server URL of the dtable to which the app needs to be added
   workspaceID: "**", // The id value of the workspace where the dtable of the app needs to be added
   dtableName: "**", // The name of the dtable to add the app to
+  tableName: "**", // The name of the sub-dtable to add the app to
   lang: "**" // default language type, en or zh-cn
 };
-
-const tableName = '**'; // The name of the sub-dtable to add the app to
 ```
 
 ### 4. Add internationalization support(optional)
@@ -165,7 +162,6 @@ app.js main code explained
 
 ```jsx
 import React from 'react';
-import PropTypes from 'prop-types';
 import DTable from 'dtable-sdk';
 
 class App extends React.Component {
@@ -193,7 +189,7 @@ class App extends React.Component {
     this.dtable.subscribe('remote-data-changed', () => { this.onDTableChanged(); });
     this.resetData();
     // get table data and collaborators
-    this.table = this.dtable.getTableByName(this.props.tableName);
+    this.table = this.dtable.getTableByName(window.dtableAppConfig.tableName);
     this.collaborators = this.dtable.getRelatedUsers();
   }
 
@@ -243,8 +239,6 @@ class App extends React.Component {
     );
   }
 }
-
-App.propTypes = propTypes;
 
 export default App;
 ```

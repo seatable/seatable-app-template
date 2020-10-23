@@ -7,10 +7,6 @@ import Content from './widge/content';
 import './css/seafile-ui.css';
 import './css/app.css';
 
-const propTypes = {
-  tableName: PropTypes.string.isRequired,
-};
-
 class App extends React.Component {
 
   constructor(props) {
@@ -47,7 +43,7 @@ class App extends React.Component {
     this.unsubscribeLocalDtableChanged = this.dtable.subscribe('local-dtable-changed', () => { this.onDTableChanged(); });
     this.unsubscribeRemoteDtableChanged = this.dtable.subscribe('remote-dtable-changed', () => { this.onDTableChanged(); });
     this.resetData();
-    this.table = this.dtable.getTableByName(this.props.tableName);
+    this.table = this.dtable.getTableByName(window.dtableAppConfig.tableName);
     this.collaborators = this.dtable.getRelatedUsers();
   }
 
