@@ -1,0 +1,232 @@
+.dtable-app .dtable-app-content {
+  padding: 16px;
+  width: max-content;
+  overflow: auto;
+}
+
+.dtable-app .dtable-app-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.dtable-app-header {
+  text-align: center;
+  margin: 2rem;
+}
+
+.dtable-app-search-input {
+  width: 30%;
+  display: inline-block;
+}
+
+.dtable-app input[type="radio"],
+.dtable-app input[type="checkbox"] {
+  margin-left: calc(50% - 16px);
+}
+
+.dtable-app table {
+  border: 1px solid #d6d6d6;
+}
+
+.dtable-app table thead tr {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.dtable-app table thead tr th {
+  color: #202428;
+  font-weight: 400;
+  height: 32;
+}
+
+.dtable-app table tbody tr {
+  height: 32px;
+}
+
+.dtable-app table thead tr th,
+.dtable-app table tbody tr td {
+  border-right: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 0 8px;
+  font-size: 13px;
+  vertical-align: inherit;
+}
+
+.dtable-app td .image-formatter img {
+  max-height: 28px;
+  margin-right: 4px;
+  border: 1px solid #f0f0f0;
+}
+
+.dtable-app table thead tr th:last-child,
+.dtable-app table tbody tr td:last-child {
+  border-right: none;
+}
+
+.dtable-app table thead tr .dtable-app-header-name {
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.dtable-app .dtable-app-body {
+  width: 100%;
+  overflow: auto;
+}
+
+.dtable-app .single-select,
+.dtable-app .multiple-select {
+  display: inline-block;
+  padding: 0px 10px;
+  height: 20px;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.longtext-formatter,
+.text-formatter {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+.longtext-icon-container {
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.longtext-formatter-links-container {
+  background-color: #f0f0f0;
+  color: #9c9c9c;
+  padding: 0 3px;
+  height: 20px;
+  line-height: 20px;
+  margin: 0 4px;
+}
+
+.longtext-formatter-image-container {
+  line-height: 30px;
+  margin-right: -10px;
+}
+
+.longtext-formatter-image-container img {
+  max-width: 28px;
+  border: 1px solid #f0f0f0;
+  max-height: 28px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.longtext-formatter-image-container .image-number {
+  font-style: normal;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 6px;
+  background-color: #999;
+  color: #fff;
+  transform: translate(-50%, 9px) scale(0.8);
+  min-width: 14px;
+  line-height: 14px;
+  padding: 0 3px;
+}
+
+.longtext-formatter-links-container .dtable-font {
+  margin-right: 4px;
+  font-size: 12px;
+}
+
+.file-formatter {
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.file-formatter img {
+  max-height: 28px;
+  margin-right: 4px;
+  border: 1px solid #f0f0f0;
+}
+
+.collaborators-formmatter {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.collaborators-formmatter .formmatter-show {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+.collaborators-formmatter .collaborator {
+  display: inline-flex;
+  height: 20px;
+  margin-right: 10px;
+  padding: 0 8px 0 2px;
+  font-size: 13px;
+  border-radius: 10px;
+  background: #eaeaea;
+}
+
+.collaborators-formmatter .collaborator-avatar-container {
+  width: 16px;
+}
+
+.collaborator-avatar {
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.collaborators-formmatter .collaborator-avatar {
+  width: 16px;
+  height: 16px;
+  transform: translateY(-1px);
+}
+
+.collaborators-formmatter .collaborator-name {
+  margin-left: 5px;
+}
+
+.multiple-selects-formatter {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.multiple-selects-formatter .formatter-show {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+/** loading **/
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #eee;
+  border-left-color: #aaa;
+  border-radius: 50%;
+  -moz-animation: loading 0.9s infinite linear;
+  -webkit-animation: loading 0.9s infinite linear;
+  animation: loading 0.9s infinite linear;
+}
+
+.loading-tip {
+  display: block;
+  margin: 0 auto;
+}

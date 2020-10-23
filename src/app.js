@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Label, Input, Button } from 'reactstrap';
 import DTable from 'dtable-sdk';
-import intl from 'react-intl-universal';
-import './locale/index.js'
-
-import './css/plugin-layout.css';
+import Loading from './widge/loading';
+import Content from './widge/content';
+import './css/seafile-ui.css';
+import './css/app.css';
 
 const propTypes = {
-  showDialog: PropTypes.bool
+  tableName: PropTypes.string.isRequired,
 };
 
 class App extends React.Component {
@@ -17,29 +17,27 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      showDialog: props.showDialog || false,
+      searchValue: '',
+      rows: []
     };
     this.dtable = new DTable();
+    this.table = {};
   }
 
   componentDidMount() {
-    this.initPluginDTableData();
+    this.initAppDTableData();
   }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({showDialog: nextProps.showDialog});
-  } 
 
   componentWillUnmount() {
     this.unsubscribeLocalDtableChanged();
     this.unsubscribeRemoteDtableChanged();
   }
 
-  async initPluginDTableData() {
+  async initAppDTableData() {
     if (window.app === undefined) {
       // local develop
       window.app = {};
-      await this.dtable.init(window.dtablePluginConfig);
+      await this.dtable.init(window.dtableAppConfig);
       await this.dtable.syncWithServer();
       this.dtable.subscribe('dtable-connect', () => { this.onDTableConnect(); });
     } else { 
@@ -49,6 +47,8 @@ class App extends React.Component {
     this.unsubscribeLocalDtableChanged = this.dtable.subscribe('local-dtable-changed', () => { this.onDTableChanged(); });
     this.unsubscribeRemoteDtableChanged = this.dtable.subscribe('remote-dtable-changed', () => { this.onDTableChanged(); });
     this.resetData();
+    this.table = this.dtable.getTableByName(this.props.tableName);
+    this.collaborators = this.dtable.getRelatedUsers();
   }
 
   onDTableConnect = () => {
@@ -61,40 +61,66 @@ class App extends React.Component {
 
   resetData = () => {
     this.setState({
-      isLoading: false,
-      showDialog: true
+      isLoading: false
     });
   }
 
-  onPluginToggle = () => {
-    this.setState({showDialog: false});
-    window.app.onClosePlugin();
+  onInputChange = (e) => {
+    this.setState({ searchValue: e.target.value });
+  }
+
+  onKeyDown = (e) => {
+    e.stopPropagation();
+    if (e.keyCode === 13) {
+      this.searchRow();
+    }
+  }
+
+  searchRow = () => {
+    let name = this.state.searchValue.trim();
+    if (!name) return;
+    let newRows = this.table.rows.filter((row) => {
+      return row && row['0000'] === name;
+    });
+    this.setState({ rows: newRows });
+  }
+
+  clearSearch = () => {
+    this.setState({
+      rows: [],
+      searchValue: ''
+    });
   }
 
   render() {
-    let { isLoading, showDialog } = this.state;
+    let { isLoading } = this.state;
     if (isLoading) {
-      return '';
+      return <Loading/>;
     }
-
-    let subtables = this.dtable.getTables();
-    let collaborators = this.dtable.getRelatedUsers();
-    
+    const preCl = 'dtable-app';
     return (
-      <Modal isOpen={showDialog} toggle={this.onPluginToggle} className="dtable-plugin plugin-container" size="lg">
-        <ModalHeader className="test-plugin-header" toggle={this.onPluginToggle}>{'Plugin'}</ModalHeader>
-        <ModalBody className="test-plugin-content">
-          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-          <br></br>
-          <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
-          <div className="mt-4">
-            <h2 className="text-left">{intl.get('international_demo')}</h2>
-            <div>{intl.get('shanshui')}</div>
-            <div>{intl.get('hello_someone', {name: '小强'})}</div>
-            <div>{intl.getHTML('contans_html_params', {params: '参数1，参数2'})}</div>
-          </div>
-        </ModalBody>
-      </Modal>
+      <div className={`${preCl} w-100`}>
+        <h2 className={`${preCl}-header`}>{'信息查询APP'}</h2>
+        <div className={`${preCl}-search mx-4`}>
+          <Label className="mr-2">{'微信名称'}</Label>
+          <Input
+            type="text"
+            className={`${preCl}-search-input`}
+            value={this.state.searchValue}
+            onChange={this.onInputChange}
+            onKeyDown={this.onKeyDown}
+          />
+          <Button onClick={this.searchRow} className="ml-2 mb-1">{'查询'}</Button>
+          <Button onClick={this.clearSearch} className="ml-2 mb-1">{'清空'}</Button>
+        </div>
+        <div className={`${preCl}-body`}>
+          <Content
+            rows={this.state.rows}
+            columns={this.table.columns}
+            collaborators={this.collaborators}
+          />
+        </div>
+      </div>
     );
   }
 }

@@ -10,49 +10,34 @@ const config = {
 
 const zip = new JSZip();
 
-// build file
 const jsFilePath = getFullFileName(config.dir + 'js');
 const cssFilePath = getFullFileName(config.dir + 'css');
 
-zip.folder('task');
-zip.folder('task/media');
-
-zip.file('task/main.js', getFileContent(jsFilePath));
+zip.file('main.js', getFileContent(jsFilePath));
 if (isDirExist(paths.appBuild + '/static/css') && cssFilePath) {
-  zip.file('task/media/main.css', getFileContent(cssFilePath));
+  zip.file('main.css', getFileContent(cssFilePath));
 }
 
-if (isFileExist(paths.pluginConfigPath, 'icon.png')) {
-  const iconPath = path.join(paths.pluginConfigPath, 'icon.png');
-  zip.file('task/media/icon.png', fs.readFileSync(iconPath));
-}
+const appInfoFilePath = path.join(paths.appConfigPath, 'info.json');
+const appInfoContent = JSON.parse(getFileContent(appInfoFilePath));
 
-if (isFileExist(paths.pluginConfigPath, 'card_image.png')) {
-  const cardImagePath = path.join(paths.pluginConfigPath, 'card_image.png'); 
-  zip.file('task/media/card_image.png', fs.readFileSync(cardImagePath));
-}
-
-// info file
-const pluginInfoFilePath = path.join(paths.pluginConfigPath, 'info.json');
-const pluginInfoContent = JSON.parse(getFileContent(pluginInfoFilePath));
-
-const pluginInfoContentExpand = {
+const appInfoContentExpand = {
   "last_modified": moment().format(),
   "has_css": (isDirExist(paths.appBuild + '/static/css') && cssFilePath) ? true : false,
-  "has_icon": isFileExist(paths.pluginConfigPath, 'icon.png'),
-  "has_card_image": isFileExist(paths.pluginConfigPath, 'card_image.png')
+  "has_icon": isFileExist(paths.appConfigPath, 'icon.png'),
+  "has_card_image": isFileExist(paths.appConfigPath, 'card_image.png')
 }
 
-let jsonFileContent = Object.assign({}, pluginInfoContent, pluginInfoContentExpand);
+let jsonFileContent = Object.assign({}, appInfoContent, appInfoContentExpand);
 
-zip.file('task/info.json', JSON.stringify(jsonFileContent, null, '  '));
+zip.file('info.json', JSON.stringify(jsonFileContent, null, '  '));
 
 zip.generateAsync({type: "nodebuffer"}).then(function(content) { 
-  let zip = `${pluginInfoContent.name}-${pluginInfoContent.version}.zip`;
-  fs.writeFile(paths.zipPath + '/' + zip, content, function(err) {
+  let zip = `${appInfoContent.name}-${appInfoContent.version}.zip`;
+  fs.writeFile(paths.appPath + '/' + zip, content, function(err) {
     if (err) {
       console.log(zip + ' failed');
-      console.log(err)
+      console.log(err);
       return;
     }
     console.log(zip + ' successful');
