@@ -1,54 +1,81 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Label, Input, Button } from 'reactstrap';
-import DTable from 'dtable-sdk';
-import Loading from './widge/loading';
-import Content from './widge/content';
-import './css/seafile-ui.css';
-import './css/app.css';
+import intl from 'react-intl-universal';
+import context from './context.js';
+import Loading from './common/loading';
+import toaster from './common/toaster';
+import { isEditAppPage } from './utils/utils.js';
+import DTableUtils from './utils/dtable-utils.js';
+import Template from './pages/template.js';
 
-const propTypes = {
-  tableName: PropTypes.string.isRequired,
-};
+import './locale/index.js'
+
+import './assets/css/common.css'
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+    const appConfig = context.getSetting('appConfig');
     this.state = {
       isLoading: true,
-      searchValue: '',
-      rows: []
+      appConfig: JSON.parse(appConfig),
+      isSaving: false,
+      isShowSaveMessage: false,
     };
-    this.dtable = new DTable();
-    this.table = {};
+    this.dtableUtils = new DTableUtils(context.getConfig());
   }
 
   componentDidMount() {
-    this.initAppDTableData();
+    this.initPluginDTableData();
   }
 
-  componentWillUnmount() {
-    this.unsubscribeLocalDtableChanged();
-    this.unsubscribeRemoteDtableChanged();
-  }
+  async initPluginDTableData() {
+    try {
+      const { appConfig } = this.state;
+      await this.dtableUtils.init(appConfig);
+      if (isEditAppPage()) {
+        const newConfig = await this.dtableUtils.getConfig(appConfig);
 
-  async initAppDTableData() {
-    if (window.app === undefined) {
-      // local develop
-      window.app = {};
-      await this.dtable.init(window.dtableAppConfig);
-      await this.dtable.syncWithServer();
-      this.dtable.subscribe('dtable-connect', () => { this.onDTableConnect(); });
-    } else { 
-      // integrated to dtable app
-      this.dtable.initInBrowser(window.app.dtableStore);
+        const tables = this.dtableUtils.getTables();
+        const views = this.dtableUtils.getViews();
+        const columns = this.dtableUtils.getColumns();
+        const rows = this.dtableUtils.getRows();
+        this.setState({
+          tables,
+          views,
+          columns,
+          rows,
+          isLoading: false,
+          appConfig: newConfig
+        })
+      } else {
+        const columns = this.dtableUtils.getColumns();
+        const rows = this.dtableUtils.getRows();
+        this.setState({
+          columns,
+          rows,
+          isLoading: false
+        });
+      }
+    } catch(err) {
+      let errorMessage = intl.get('Network_error');
+      if (err.response) {
+        const { status } = err.response;
+        if (status === 403) {
+          errorMessage = intl.get('The_token_has_expired_please_refresh_the_page');
+        }
+        if (status === 500) {
+          errorMessage = intl.get('Internal_server_error');
+        }
+        if (!isEditAppPage() && status === 404) {
+          errorMessage = intl.get('The_sharing_link_has_expired');
+        }
+      }
+      this.setState({
+        isLoading: false,
+        errorMessage: errorMessage
+      });
     }
-    this.unsubscribeLocalDtableChanged = this.dtable.subscribe('local-dtable-changed', () => { this.onDTableChanged(); });
-    this.unsubscribeRemoteDtableChanged = this.dtable.subscribe('remote-dtable-changed', () => { this.onDTableChanged(); });
-    this.resetData();
-    this.table = this.dtable.getTableByName(this.props.tableName);
-    this.collaborators = this.dtable.getRelatedUsers();
   }
 
   onDTableConnect = () => {
@@ -59,72 +86,69 @@ class App extends React.Component {
     this.resetData();
   }
 
-  resetData = () => {
+  updateAppConfig = async (config, type = null) => {
     this.setState({
-      isLoading: false
+      isSaving: true,
+      isShowSaveMessage: true,
     });
-  }
-
-  onInputChange = (e) => {
-    this.setState({ searchValue: e.target.value });
-  }
-
-  onKeyDown = (e) => {
-    e.stopPropagation();
-    if (e.keyCode === 13) {
-      this.searchRow();
+    let newAppConfig = config;
+    if (type && type === 'table') {
+      newAppConfig = await this.dtableUtils.getConfigByChangeSelectedTable(config);
     }
-  }
-
-  searchRow = () => {
-    let name = this.state.searchValue.trim();
-    if (!name) return;
-    let newRows = this.table.rows.filter((row) => {
-      return row && row['0000'] === name;
-    });
-    this.setState({ rows: newRows });
-  }
-
-  clearSearch = () => {
-    this.setState({
-      rows: [],
-      searchValue: ''
+    if (type && type === 'view') {
+      newAppConfig = await this.dtableUtils.getConfigByChangeSelectedView(config);
+    }
+    context.updateExternalAppInstance(newAppConfig).then(res => {
+      const views = this.dtableUtils.getViews();
+      const columns = this.dtableUtils.getColumns();
+      const rows = this.dtableUtils.getRows();
+      this.setState({
+        appConfig: newAppConfig,
+        isSaving: false,
+        views,
+        columns,
+        rows
+      }, () => {
+        if (this.timer) {
+          clearTimeout(this.timer);
+          this.timer = null;
+        }
+        this.timer = setTimeout(() => {
+          this.setState({isShowSaveMessage: false});
+        }, 1000);
+      });
+    }).catch(err => {
+      toaster.danger(intl.get('Failed_to_update_app_config'));
+      this.setState({
+        isSaving: false,
+        isShowSaveMessage: false
+      });
     });
   }
 
   render() {
-    let { isLoading } = this.state;
+    let { isLoading, errorMessage } = this.state;
     if (isLoading) {
-      return <Loading/>;
+      return <div className="d-flex flex-fill align-items-center"><Loading /></div>;
     }
-    const preCl = 'dtable-app';
+    
+    if (!isLoading && errorMessage) {
+      return (
+        <div className="d-flex flex-fill align-items-center error-message">
+          {errorMessage}
+        </div>
+      );
+    }
+    
     return (
-      <div className={`${preCl} w-100`}>
-        <h2 className={`${preCl}-header`}>{'信息查询APP'}</h2>
-        <div className={`${preCl}-search mx-4`}>
-          <Label className="mr-2">{'微信名称'}</Label>
-          <Input
-            type="text"
-            className={`${preCl}-search-input`}
-            value={this.state.searchValue}
-            onChange={this.onInputChange}
-            onKeyDown={this.onKeyDown}
-          />
-          <Button onClick={this.searchRow} className="ml-2 mb-1">{'查询'}</Button>
-          <Button onClick={this.clearSearch} className="ml-2 mb-1">{'清空'}</Button>
-        </div>
-        <div className={`${preCl}-body`}>
-          <Content
-            rows={this.state.rows}
-            columns={this.table.columns}
-            collaborators={this.collaborators}
-          />
-        </div>
-      </div>
+      <Template 
+        tables={this.state.tables}
+        views={this.state.views}
+        columns={this.state.views}
+        rows={this.state.rows}
+      />
     );
   }
 }
-
-App.propTypes = propTypes;
 
 export default App;

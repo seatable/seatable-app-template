@@ -1,13 +1,3 @@
 {
-  "env": {
-    "test": {
-      "presets": [["react-app", {"absoluteRuntime" : false, "BABEL_ENV" : "test"}]]
-    },
-    "development": {
-      "presets": [["react-app", {"absoluteRuntime" : false, "BABEL_ENV" : "development"}]]
-    },
-    "production": {
-      "presets": [["react-app", {"absoluteRuntime" : false, "BABEL_ENV" : "production"}]]
-    }
-  }
+  "presets": ["react-app"]
 }

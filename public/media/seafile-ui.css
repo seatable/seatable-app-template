@@ -6999,7 +6999,7 @@ body {
   line-height: 1.4; }
 
 a {
-  text-decoration-skip-ink: auto;
+  text-decoration-skip: ink;
   color: #eb8205; }
   a:hover {
     color: #eb8205; }

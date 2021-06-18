@@ -73,7 +73,7 @@ module.exports = {
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
-  appEntryJs: resolveModule(resolveApp, 'src/index'),
+  appEntryJs: resolveModule(resolveApp, 'src/entry'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -84,8 +84,8 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  appPath: resolveApp('app-zip'),
-  appConfigPath: resolveApp('app-config'),
+  zipPath: resolveApp('plugin-zip'),
+  pluginConfigPath: resolveApp('plugin-config'),
 };
 
 

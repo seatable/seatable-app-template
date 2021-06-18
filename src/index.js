@@ -1,18 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import './setting';
 import App from './app';
 
-const server = "https://dev.seafile.com/dtable-web/".replace(/\/+$/, "");
+class TaskList {
 
-window.dtableAppConfig = {
-  APIToken: "550431bb7e58590823d53bfa8bdb6f9aab2a7ac0",
-  server,
-  workspaceID: "3",
-  dtableName: "new",
-  lang: "en"
-};
+  static execute() {
+    ReactDOM.render(
+      <App isDevelopment={true} />,
+      document.getElementById('root')
+    );
+  }
 
-const tableName = '测试移动端全部的列';
+}
 
-ReactDOM.render(<App tableName={tableName} />, document.getElementsByTagName('body')[0]);
+TaskList.execute();
+
+window.app = window.app ? window.app : {};
+window.app.onClosePlugin = function() {
+
+}
+
