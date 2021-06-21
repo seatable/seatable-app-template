@@ -32,10 +32,10 @@ src -------------------------------------- 项目源码文件夹
 
 如上图: 
 1. 开发环境中用到的变量通过 setting.local.js 文件进行配置
-2. 部署环境中用到的变量通过 mediator.js 统一收集所有app需要的参数信息(由上层应用提供)
-3. 通过 context 工具类对上层传递的参数进行统一管理, 向 app 提供统一的接口
-4. app 的开发只需关注 context 提供的 api 即可, 避免 app 内部需要多次判断当前是开发环境还是部署环境
-5. app 内部各模块的开发根据需及设计进行处理
+2. 部署环境中用到的变量通过 mediator.js 统一收集所有 app 需要的配置信息(由上层应用提供)
+3. 通过 context 工具类对上层传递的配置信息进行统一管理, 向 app 提供统一的获取接口
+4. app 的开发只需从 context 提供的 api 中获取相关配置信息, 无序考虑不同环境下配置信息的获取问题
+5. app 内部各模块的开发根据需求及设计进行处理
 
 ## 开发流程
 > template 中提供了部分公共组件, 可以直接使用
@@ -51,14 +51,14 @@ src -------------------------------------- 项目源码文件夹
    1) 将本地需要翻译的内容放入 `/public/local/en/**.json` 文件中
    2) 执行 `npm run push-translate` 将需要翻译的文件提交到翻译平台
    3) 在翻译平台 https://www.transifex.com/ 上完成支持语言的翻译工作
-   4) 执行 npm run pull-translate, 将翻译好的内容从翻译平台拉取下来
+   4) 执行 `npm run pull-translate` 将翻译好的内容从翻译平台拉取下来
 ```
 
 2. 完成打包工作, 执行 `npm run build`
 3. 将打包好的文件放入 dtable-web 项目
 ```
-   1) copy 将打包好的文件 main.css, main.js(打包好的文件在 build 文件夹下)
-   20 paste 到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
+   1) copy 打包好的文件 main.css, main.js(打包好的文件在 build 文件夹下)
+   2) paste 到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
 ```
 
 4. 更新配置文件
