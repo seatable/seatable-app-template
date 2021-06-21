@@ -28,7 +28,7 @@ src -------------------------------------- 项目源码文件夹
 ### 代码结构图
 > 本地开发及集成开发中全局变量的构建及管理
 
-![你好](https://www.processon.com/view/link/60cff2107d9c0803ee962fd2)
+![你好](./public/media/images/seatable-app-template.png)
 
 如上图: 
 1. 开发环境中用到的变量通过 setting.local.js 文件进行配置
