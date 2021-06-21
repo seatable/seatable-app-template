@@ -50,7 +50,7 @@ src -------------------------------------- 项目源码文件夹
 ```
    1) 将本地需要翻译的内容放入 `/public/local/en/**.json` 文件中
    2) 执行 `npm run push-translate` 将需要翻译的文件提交到翻译平台
-   3) 在 [transifex](https://www.transifex.com/) 完成支持语言的翻译工作
+   3) 在翻译平台 https://www.transifex.com/ 上完成支持语言的翻译工作
    4) 执行 npm run pull-translate, 将翻译好的内容从翻译平台拉取下来
 ```
 
