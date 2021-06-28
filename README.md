@@ -52,7 +52,7 @@ src -------------------------------------- 项目源码文件夹
 ```
    1) 将打包好的文件 main.css, main.js(打包好的文件在 build 文件夹下) 粘贴到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
    2) 将准备好的 app 的图标 `icon.png` 放到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
-
+```
 4. 更新配置文件
 ```json
 更新 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 文件, 添加新的 app 的配置内容
