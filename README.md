@@ -37,13 +37,6 @@ src -------------------------------------- 项目源码文件夹
 4. app 的开发只需从 context 提供的 api 中获取相关配置信息, 无序考虑不同环境下配置信息的获取问题
 5. app 内部各模块的开发根据需求及设计进行处理
 
-## 开发流程
-> template 中提供了部分公共组件, 可以直接使用
-
-1. 基于需求及设计按步骤进行开发
-2. 合理划分组件及目录结构
-3. 按照模块进行开发
-   
 ## 集成步骤
 
 1. 完成翻译任务
@@ -77,12 +70,54 @@ src -------------------------------------- 项目源码文件夹
    },
    "description": {
       "de": "",
-      "en": "",
+      "en": "the app's description",
       "fr": "",
       "zh-cn": ""
    }
 }
 ```
+
+## 开发流程
+
+第一步: 本地全局安装 create-seatable-app 脚手架
+`npm install create-seatable-app -g`
+
+第二步: 创建 app 项目
+`create-seatable-app init **`
+
+第三步: 配置 app 项目
+1. 在 dtable-web 项目中更新 app 配置文件, 添加需要创建 app 的配置信息(app 展示列表从该文件中读取内容)
+```
+对 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 进行更新
+添加新的 app 的配置文件
+{
+   "app_name": "app-name",
+   "app_type": "app-name",
+   "version": "0.0.1",
+   "display_name": {
+      "de": "",
+      "en": "app-name",
+      "fr": "",
+      "zh-cn": ""
+   },
+   "description": {
+      "de": "",
+      "en": "the app's description",
+      "fr": "",
+      "zh-cn": ""
+   }
+}
+```
+2. 在 app 管理界面创建一个新 app 的实例
+3. 访问 app 实例, 会打开一个空白的页面, 打开 “开发者工具”, 进入 Elements 选项卡
+4. 找到 scripts 标签内部, 可以发现包含 app 开发的相关的配置信息  
+![你好](./public/media/images/global-variable.png)
+1. 更新本地配置信息, 运行项目, 可以看到 template 项目能够正常运行
+
+第二步: 开发 app 项目
+1. 基于需求及设计按步骤进行开发
+2. 合理划分组件及目录结构
+3. 按照模块进行开发
 
 ## 注意事项
 
