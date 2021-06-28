@@ -50,14 +50,12 @@ src -------------------------------------- 项目源码文件夹
 2. 完成打包工作, 执行 `npm run build`
 3. 将打包好的文件放入 dtable-web 项目
 ```
-   1) copy 打包好的文件 main.css, main.js(打包好的文件在 build 文件夹下)
-   2) paste 到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
-```
+   1) 将打包好的文件 main.css, main.js(打包好的文件在 build 文件夹下) 粘贴到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
+   2) 将准备好的 app 的图标 `icon.png` 放到 dtable-web 项目 /media/dtable-apps/**/ 文件夹下
 
 4. 更新配置文件
-```
-对 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 进行更新
-添加新的 app 的配置文件
+```json
+更新 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 文件, 添加新的 app 的配置内容
 {
    "app_name": "app-name",
    "app_type": "app-name",
@@ -87,9 +85,8 @@ src -------------------------------------- 项目源码文件夹
 
 第三步: 配置 app 项目
 1. 在 dtable-web 项目中更新 app 配置文件, 添加需要创建 app 的配置信息(app 展示列表从该文件中读取内容)
-```
-对 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 进行更新
-添加新的 app 的配置文件
+```json
+更新 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 文件, 添加新的 app 的配置内容
 {
    "app_name": "app-name",
    "app_type": "app-name",
@@ -114,7 +111,7 @@ src -------------------------------------- 项目源码文件夹
 ![你好](./public/media/images/global-variable.png)
 1. 更新本地配置信息, 运行项目, 可以看到 template 项目能够正常运行
 
-第二步: 开发 app 项目
+第四步: 进行项目开发
 1. 基于需求及设计按步骤进行开发
 2. 合理划分组件及目录结构
 3. 按照模块进行开发
@@ -122,7 +119,7 @@ src -------------------------------------- 项目源码文件夹
 ## 注意事项
 
 ### 参数添加
-当 app 需要新的参数时, 
+当 app 需要新的参数时
 1. 需要更新 setting.local.js 文件满足开发环境的需要
 2. 需要更新 mediator.js 文件满足部署环境的需要
 
