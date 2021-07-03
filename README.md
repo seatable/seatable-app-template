@@ -55,7 +55,7 @@ src -------------------------------------- 项目源码文件夹
 ```
 4. 更新配置文件
 ```json
-更新 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 文件, 添加新的 app 的配置内容
+更新 dtable-web 项目 /seahub/ 文件夹下的 settings.py 文件, 将新的 app 的配置内容添加到 DTABLE_APP_CONFIG 的配置项内
 {
    "app_name": "app-name",
    "app_type": "app-name",
@@ -86,7 +86,7 @@ src -------------------------------------- 项目源码文件夹
 第三步: 配置 app 项目
 1. 在 dtable-web 项目中更新 app 配置文件, 添加需要创建 app 的配置信息(app 展示列表从该文件中读取内容)
 ```json
-更新 dtable-web 项目 /media/dtable-apps/ 文件夹下的 config.json 文件, 添加新的 app 的配置内容
+更新 dtable-web 项目 /seahub/ 文件夹下的 settings.py 文件, 将新的 app 的配置内容添加到 DTABLE_APP_CONFIG 的配置项内
 {
    "app_name": "app-name",
    "app_type": "app-name",
