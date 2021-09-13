@@ -78,15 +78,15 @@ src -------------------------------------- 项目源码文件夹
 ## 开发流程
 
 第一步: 本地全局安装 create-seatable-app 脚手架
-`npm install create-seatable-app -g`
+`npm install create-dtable-app -g`
 
 第二步: 创建 app 项目
-`create-seatable-app init **`
+`create-dtable-app init **`
 
 第三步: 配置 app 项目
 1. 在 dtable-web 项目中更新 app 配置文件, 添加需要创建 app 的配置信息(app 展示列表从该文件中读取内容)
 ```json
-更新 dtable-web 项目 /seahub/ 文件夹下的 settings.py 文件, 将新的 app 的配置内容添加到 DTABLE_APP_CONFIG 的配置项内
+更新 dtable-web 项目 /seahub/ 文件夹下的 settings.py 文件, 将新的 app 的配置内容添加到 DTABLE_APPS_CONFIG 的配置项内
 {
    "app_name": "app-name",
    "app_type": "app-name",
@@ -105,9 +105,17 @@ src -------------------------------------- 项目源码文件夹
    }
 }
 ```
-2. 在 app 管理界面创建一个新 app 的实例
-3. 访问 app 实例, 会打开一个空白的页面, 打开 “开发者工具”, 进入 Elements 选项卡
-4. 找到 scripts 标签内部, 可以发现包含 app 开发的相关的配置信息  
+2. 开启将要新建的 dtable app
+```json
+更新 dtable-web 项目 /seahub/ 文件夹下的 settings.py 文件, 将创建的app 添加到 ENABLED_EXTERNAL_APPS 列表内
+ENABLED_EXTERNAL_APPS = [
+   "***",
+   "**"
+]
+```
+3. 在 app 管理界面创建一个新 app 的实例
+4. 访问 app 实例, 会打开一个空白的页面, 打开 “开发者工具”, 进入 Elements 选项卡
+5. 找到 scripts 标签内部, 可以发现包含 app 开发的相关的配置信息  
 ![你好](./public/media/images/global-variable.png)
 1. 更新本地配置信息, 运行项目, 可以看到 template 项目能够正常运行
 
