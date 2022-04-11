@@ -1,3 +1,6 @@
 {
-  "presets": ["react-app"]
+  "presets": ["react-app"],
+  "plugins": [
+    ["on-demand-loading", {"library": "dtable-ui-component"}]
+ ]
 }
