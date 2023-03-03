@@ -19,5 +19,5 @@ TaskList.execute();
 window.app = window.app ? window.app : {};
 window.app.onClosePlugin = function() {
 
-}
+};
 

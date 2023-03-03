@@ -1,7 +1,7 @@
-import DTableServerAPI from "../api/dtable-server-api";
+import DTableServerAPI from '../api/dtable-server-api';
 import * as CellType from '../common/constants/cell-types';
 import COLUMNS_ICON_CONFIG from '../common/constants/column-icon';
-import { getImageColumns, getTitleColumns } from "./utils";
+import { getImageColumns, getTitleColumns } from './utils';
 
 class DTableUtils {
 
@@ -126,7 +126,6 @@ class DTableUtils {
 
   async getConfigByChangeSelectedTable(appConfig) {
     const { table_name } = appConfig.settings;
-    console.log(table_name);
     const selectedTable = this.tables.find(table => table.name === table_name);
     const selectedView = selectedTable.views[0];
     const columns = selectedTable.columns;
@@ -138,7 +137,7 @@ class DTableUtils {
       shown_image_name: imageColumns[0] && imageColumns[0].name,
       shown_title_name: titleColumns[0] && titleColumns[0].name,
       shown_column_names: []
-    }
+    };
 
     
     this.views = selectedTable.views;
@@ -162,7 +161,7 @@ class DTableUtils {
       shown_image_name: imageColumns[0] && imageColumns[0].name,
       shown_title_name: titleColumns[0] && titleColumns[0].name,
       shown_column_names: []
-    }
+    };
 
     this.columns = columns;
     this.rows = await this.listRows(this.selectedTable.name, selectedView.name);

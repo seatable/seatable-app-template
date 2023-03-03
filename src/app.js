@@ -7,9 +7,9 @@ import { isEditAppPage } from './utils/utils.js';
 import DTableUtils from './utils/dtable-utils.js';
 import Template from './pages/template.js';
 
-import './locale/index.js'
+import './locale/index.js';
 
-import './assets/css/common.css'
+import './assets/css/common.css';
 
 class App extends React.Component {
 
@@ -47,7 +47,7 @@ class App extends React.Component {
           rows,
           isLoading: false,
           appConfig: newConfig
-        })
+        });
       } else {
         const columns = this.dtableUtils.getColumns();
         const rows = this.dtableUtils.getRows();

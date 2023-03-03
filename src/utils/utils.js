@@ -68,7 +68,7 @@ export const checkDesktop = () => {
 
 export const isEditAppPage = () => {
   return context.getSetting('isEditAppPage');
-}
+};
 
 export const getTitleColumns = (dtable, columns) => {
   const CellType = dtable.getCellType();
@@ -78,8 +78,8 @@ export const getTitleColumns = (dtable, columns) => {
     CellType.GEOLOCATION, CellType.CTIME, CellType.MTIME, CellType.CREATOR, 
     CellType.LAST_MODIFIER];
   return columns.filter(column => SHOW_TITLE_COLUMN_TYPE.find(type => type === column.type));
-}
+};
 
 export const getImageColumns = (columns) => {
   return columns.filter(column => column.type === 'image');
-}
+};

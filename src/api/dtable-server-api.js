@@ -26,7 +26,7 @@ class DTableServerAPI {
     const url = `api/v1/dtables/${this.dtableUuid}/views/`;
     const params = {
       table_name: encodeURIComponent(tableName),
-    }
+    };
     return this.req.get(url, params);
   }
 
@@ -35,7 +35,7 @@ class DTableServerAPI {
     const params = {
       table_name: tableName,
       view_name: viewName
-    }
+    };
     return this.req.get(url, {params});
   }
   
@@ -44,7 +44,7 @@ class DTableServerAPI {
     const params = {
       table_name: tableName,
       view_name: viewName
-    }
+    };
     return this.req.get(url, {params});
   }
 
